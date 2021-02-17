@@ -1,92 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-//함수형, 클래스형 / 리액트 훅 의 차이
+// useInput("aas") : 입력값 aas 가 initialValue로 들어가서 useState에 의해 value 가 initialValue의 값으로 변경후 리턴됨.
+const useInput = (initialValue, validator) => {
+    const [value, setValue] = useState(initialValue);
+    const onChange = (event) => {
+        const {
+            target: { value }
+        } = event;
+        let willUpdate = true;
 
-//함수형 + 리액트 훅(useState) 사용
-// const App = () => {
-//   const [count, setCount] = useState(0);
-//   const [email, setEmail] = useState("");
-//   const updateEmail = e => {
-//     const {
-//       target: { value }
-//     } = e;
-//     setEmail(value);
-//   }
-//   return (
-//     <div>
-//       <div>{count}</div>
-//       <button onClick={() => setCount(count + 1)} >Increment</button>
-//       <input placeholder="Email" value={email} onChange={updateEmail} />
-//     </div>
-//   )
-// }
+        //유효성 검사 함수
 
-/*
+        //유효성 검사 인자변수 validator 로 들어오는 값이 함수인 경우 (유효성 검사는 함수 내에서 해야 하니깐)
+        //해당 함수의 결과 true or false 를 willUpdate 에 할당.
+        //유효성이 맞는 경우 willUpdate 는 자동으로 유효성함수에 의해 true 가 되고
+        // 이는 값을 변경 함.
+        if (typeof validator === "function") {
+            willUpdate = validator(value);
+        }
 
-리액트 훅(useState) 의 기능
-첫번째는 value, 두번째는 변경 방법을 준다.
-const [count, setCount] 에서 count 가 첫번째, setCount 가 두번째에 해당.
-userState 에서 주는것은 배열 형태라서 배열 형태로 생성, 작업
-
-기존 방식대로 state를 설정하고, state 변경 함수(setState 이용)를 만들 필요 없이
-리액트 훅을 이용해서 코드가 간결화.
-
-리액트 훅이 나오기 전에 state 를 사용하려면 class 형태로 작성 해야만 했다.
-하지만 리액트 훅이 나오고 state를 함수 형태에서도 사용이 가능해 졌다.
-
-
-
-정리.
-코드 : const [count, setCount] = useState(0);
-useState 는 array를 리턴한다.
-그 array의 첫번째 요소는 value 이고 이는 0으로 시작.
-두번째 요소는 setCount
-이름은 아무거나 해도 상관 없다.(배열을 반환하기 때문에 그냥 이름만 잘 가져다가 쓰면 됨.)
-
-만약 useState 에서 첫번째 인자만 사용 하고 싶은 경우
-const item = useState(1)[0]; 이렇게 하면 됨.
-*/
-
-
-
-//리액트 훅 없는 형태 + 클래스 형태
-// class App extends React.Component {
-//   state = {
-//     count: 0
-//   };
-
-//   modify = n => {
-//     this.setState({
-//       count: n
-//     });
-//   };
-
-//   render() {
-//     const { count } = this.state;
-//     return (
-//       <div>
-//         <div>{count}</div>
-//         <button onClick={() => this.modify(count + 1)}>Increment</button>
-//       </div>
-//     );
-//   }
-// }
+        if (willUpdate) {
+            setValue(value);
+        }
+    };
+    return { value, onChange };
+};
 
 const App = () => {
-    const [item, setItem] = useState(1);
-    const incrementItem = () => setItem(item + 1);
-    const decrementItem = () => setItem(item - 1);
+    const maxLen = (value) => value.length < 10;
+    // maxLen 은 문자열의 길이가 10 이하인 경우 true 를 반환한다.
 
+    const check = (value) => !value.includes("@");
+    //check 는 @ 를 포함하면 true, 없으면 false 를 반환
+    //반대 논리를 가지기 때문에 @는 입력 할 수 없다.
+
+    //이처럼 문자열 길이 이외에도 다른 형태의 검증 함수를 이용해도 상관없다.
+    const name = useInput("Mr.", check);
+
+    //실제 작동시 유효성 검사에 의해 문자열의 길이가 10이 넘어가면
+    //더이상 입력 할 수 없다.
     return (
         <div className="App">
-            <h1>Hello {item}</h1>
-            <h2>Start editing to see some magic happen!</h2>
-            <button onClick={incrementItem}>Increment</button>
-            <button onClick={decrementItem}>Drcement</button>
+            <h1>Hello</h1>
+            {/* <input placeholder="Name" value={name.value} onChange={name.onChange}/> 아래랑 똑같음*/}
+            <input placeholder="Name" {...name} />
         </div>
     );
-}
-
-
+};
 
 export default App;
