@@ -1,14 +1,17 @@
 import React, { useState } from "react";
+import UseEffect from "./components/useEffectreact";
+import UseTitle from "./components/useTitlereact";
+import UseInput from "./components/useInputHooks";
 
 const content = [
-    {
-        tab: "Section 1",
-        content: "I'm the content of the Section 1"
-    },
-    {
-        tab: "Section 2",
-        content: "I'm the content of the Section 2"
-    }
+  {
+    tab: "Section 1",
+    content: "I'm the content of the Section 1",
+  },
+  {
+    tab: "Section 2",
+    content: "I'm the content of the Section 2",
+  },
 ];
 
 /*
@@ -16,19 +19,21 @@ const content = [
  
 */
 const useTabs = (initialTab, allTabs) => {
-    //두번째 인자가 없거나, 배열이 아니면 바로 종료
-    const [currentIndex, setCurrentIndex] = useState(initialTab);
-    if (!allTabs || !Array.isArray(allTabs)) {
-        return;
-    }
+  //두번째 인자가 없거나, 배열이 아니면 바로 종료
+  const [currentIndex, setCurrentIndex] = useState(initialTab);
 
-    /*
+  // 두번째 인자로 넘어오는 값이 없거나, 또는 배열이 아니면 실행 X
+  if (!allTabs || !Array.isArray(allTabs)) {
+    return;
+  }
+
+  /*
     useState 가 사용되었다. 마찬가지로 배열로 두가지 값을 가지고
     currentIndex는 값, setCurrentIndex는 첫번째 인자 변경 방법이다.
     선언시 initialTab을 받아서 currentIndex에 할당한다.
     */
 
-    /*
+  /*
     currentItem 과 changeItem 두가지를 반한다.
     
     첫번째 값은 allTabs (입력으로 들어온 배열) 의 
@@ -44,23 +49,34 @@ const useTabs = (initialTab, allTabs) => {
     입력값인 index 는 useState에 의해서 기존 value 에 해당하는 
     currentIndex의 값을 변경함수 setCurrentIndex에 의해서 index 값으로 변경시킨다.
     */
-    return {
-        currentItem: allTabs[currentIndex],
-        changeItem: setCurrentIndex
-    };
+  return {
+    currentItem: allTabs[currentIndex],
+    changeItem: setCurrentIndex,
+  };
 };
 
 const App = () => {
-    const { currentItem, changeItem } = useTabs(0, content);
-    return (
-        <div className="App">
-            <h1>Hello</h1>
-            {content.map((section, index) => (
-                <button onClick={() => changeItem(index)}>{section.tab}</button>
-            ))}
-            <div>{currentItem.content}</div>
-        </div>
-    );
+  const { currentItem, changeItem } = useTabs(0, content);
+  return (
+    <div className="App">
+      <h1>각 컴포넌트는 각각의 훅을 가짐</h1>
+      <h1>UseTab</h1>
+      <div>
+        <h1>Hello</h1>
+        {content.map((section, index) => (
+          <button onClick={() => changeItem(index)}>{section.tab}</button>
+        ))}
+        <div>{currentItem.content}</div>
+      </div>
+
+      <UseInput />
+
+      {/* useEffect */}
+      <UseEffect />
+
+      <UseTitle />
+    </div>
+  );
 };
 
 export default App;
