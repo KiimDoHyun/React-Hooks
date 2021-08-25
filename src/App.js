@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import UseEffect from "./components/useEffectreact";
 import UseTitle from "./components/useTitlereact";
 import UseInput from "./components/useInputHooks";
+import UseClick from "./components/useClickHook";
 
 const content = [
   {
@@ -71,10 +72,10 @@ const App = () => {
 
       <UseInput />
 
-      {/* useEffect */}
       <UseEffect />
 
       <UseTitle />
+      <UseClick />
     </div>
   );
 };
