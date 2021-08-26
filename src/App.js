@@ -3,6 +3,15 @@ import UseEffect from "./components/useEffectreact";
 import UseTitle from "./components/useTitlereact";
 import UseInput from "./components/useInputHooks";
 import UseClick from "./components/useClickHook";
+import UseConfirm from "./components/useConfirmHook";
+import UsePreventLeave from "./components/usePreventLeaveHook";
+import UseBeforeLeave from "./components/useBeforeLeaveHook";
+import UseFadeIn from "./components/useFadeInHook";
+import UseNetwork from "./components/useNetworkHook";
+import UseScroll from "./components/useScrollHook";
+import UseFullScreen from "./components/useFullScreenHook";
+import UseNotification from "./components/useNotificationHook";
+import UseAxios from "./components/useAxiosHook";
 
 const content = [
   {
@@ -59,8 +68,8 @@ const useTabs = (initialTab, allTabs) => {
 const App = () => {
   const { currentItem, changeItem } = useTabs(0, content);
   return (
-    <div className="App">
-      <h1>각 컴포넌트는 각각의 훅을 가짐</h1>
+    <div className="App" style={{ height: "1000vh" }}>
+      <h1>각 컴포넌트는 각각의 훅을 가지는 예시임.</h1>
       <h1>UseTab</h1>
       <div>
         <h1>Hello</h1>
@@ -76,6 +85,17 @@ const App = () => {
 
       <UseTitle />
       <UseClick />
+
+      <UseConfirm />
+
+      <UsePreventLeave />
+      <UseBeforeLeave />
+      <UseFadeIn />
+      <UseNetwork />
+      <UseScroll />
+      <UseFullScreen />
+      <UseNotification />
+      <UseAxios />
     </div>
   );
 };

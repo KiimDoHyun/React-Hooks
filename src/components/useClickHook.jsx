@@ -5,6 +5,7 @@ const useClick = (onClick) => {
 
   //   컴포넌트가 마운트 되면 이벤트를 붙여줌
   //   의존성이 없기 때문에 초기 마운트 되었을 때만 실행
+  // 클릭 뿐만 아니라 다른 이벤트에 대해서도 적용 가능함.
   useEffect(() => {
     if (element.current) {
       element.current.addEventListener("click", onClick);
